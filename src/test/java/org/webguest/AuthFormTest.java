@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,14 +15,15 @@ public class AuthFormTest {
 
     @BeforeClass
     public static void setup() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "use-fake-ui-for-media-stream", "start-maximized");
         //путь к драйверу
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        driver = new ChromeDriver(chromeOptions);
         //добавляю вейт
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         //беру ссылку на страницу webguest из conf.properties
-        driver.get(ConfProperties.getProperty("web-guest-page"));
+        driver.get(ConfProperties.getProperty("web-guest-link"));
         authForm = new AuthForm(driver);
     }
 
